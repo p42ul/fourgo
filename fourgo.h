@@ -1,12 +1,29 @@
-#ifndef _FOURGO_H
-#define _FOURGO_H
+#ifndef FOURGO_H_
+#define FOURGO_H_
 
-void draw_board(void);
-void init_board(void);
-uint8_t make_move(uint8_t player, uint8_t column);
-uint8_t check_win(uint8_t* x1, uint8_t* y1, uint8_t* x2, uint8_t* y2);
-void clear_screen(void);
-void move_selection(uint8_t selection);
-void draw_move(uint8_t x, uint8_t y, uint8_t player);
+#include <gb/gb.h>
 
-#endif /* _FOURGO_H */
+#define WIDTH 7
+#define HEIGHT 6
+
+#define TRUE 1
+#define FALSE 0
+
+#define PX 0
+#define P1 1
+#define P2 2
+
+#define PX_COLOR BLACK
+#define P1_COLOR LTGREY
+#define P2_COLOR DKGREY
+
+#define WIN_LENGTH 4
+
+/* radius of the pucks, in pixels */
+#define CIRCLE_RADIUS 6
+#define SPACING 15
+#define MARGIN 30
+
+void select_column(uint8_t selection);
+
+#endif /* _FOURGO_H_ */
