@@ -1,7 +1,6 @@
-#include <gb/drawing.h>
-
 #include "fourgo.h"
 
+#include <gb/drawing.h>
 #include "drawing.h"
 #include "board.h"
 
