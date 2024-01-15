@@ -53,11 +53,11 @@ void main(void)
     } else {
       last &= ~J_RIGHT;
     }
-    if (key & J_DOWN)
+    if (key & J_A)
     {
-      if (!(last & J_DOWN))
+      if (!(last & J_A))
       {
-        last |= J_DOWN;
+        last |= J_A;
         if (make_move(board, current_player, selected_column, &column, &row))
         {
           draw_move(column, row, current_player);
@@ -71,7 +71,7 @@ void main(void)
         }
       }
     } else {
-      last &= ~J_DOWN;
+      last &= ~J_A;
     }
   }
   /* winner found */
