@@ -1,14 +1,15 @@
 #include "board.h"
 #include "fourgo.h"
 
-static uint8_t board[HEIGHT][WIDTH];
+static uint8_t _board[HEIGHT][WIDTH];
 
-void init_board(void)
+Board* init_board(void)
 {
   uint8_t w, h;
   for (w = 0; w < WIDTH; w++)
     for (h = 0; h < HEIGHT; h++)
-      board[h][w] = PX;
+      _board[h][w] = PX;
+  return _board;
 }
 
 /* Check board for a win.
@@ -17,7 +18,7 @@ void init_board(void)
  * and returns the winning player.
  * Otherwise, returns PX (0).
  */
-uint8_t check_win(uint8_t* x1, uint8_t* y1, uint8_t* x2, uint8_t* y2)
+uint8_t check_win(Board* board, uint8_t* x1, uint8_t* y1, uint8_t* x2, uint8_t* y2)
 {
   uint8_t w, h, p, i;
   for (p = P1; p <= P2; p++)
@@ -95,7 +96,7 @@ uint8_t check_win(uint8_t* x1, uint8_t* y1, uint8_t* x2, uint8_t* y2)
  * If the move is invalid, returns FALSE.
  * Otherwise, returns TRUE.
  */
-uint8_t make_move(uint8_t player, uint8_t column, uint8_t* x, uint8_t* y)
+uint8_t make_move(Board* board, uint8_t player, uint8_t column, uint8_t* x, uint8_t* y)
 {
   int16_t row = 0;
   while (board[row][column] == PX && row < HEIGHT)

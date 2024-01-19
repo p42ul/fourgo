@@ -25,7 +25,8 @@ void main(void)
   uint8_t key, last = 0;
   uint8_t row, column;
   uint8_t x1, y1, x2, y2;
-  init_board();
+  Board* board;
+  board = init_board();
   draw_board();
   select_column(selected_column);
   while(1)
@@ -52,15 +53,15 @@ void main(void)
     } else {
       last &= ~J_RIGHT;
     }
-    if (key & J_DOWN)
+    if (key & J_A)
     {
-      if (!(last & J_DOWN))
+      if (!(last & J_A))
       {
-        last |= J_DOWN;
-        if (make_move(current_player, selected_column, &column, &row))
+        last |= J_A;
+        if (make_move(board, current_player, selected_column, &column, &row))
         {
           draw_move(column, row, current_player);
-          if (check_win(&x1, &y1, &x2, &y2))
+          if (check_win(board, &x1, &y1, &x2, &y2))
               break;
           if (current_player == P1)
             current_player = P2;
@@ -70,7 +71,7 @@ void main(void)
         }
       }
     } else {
-      last &= ~J_DOWN;
+      last &= ~J_A;
     }
   }
   /* winner found */
