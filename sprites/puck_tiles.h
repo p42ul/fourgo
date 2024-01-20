@@ -11,3 +11,4 @@ Tile Header File
 /* Start of tile array */
 extern const unsigned char puck_p1[];
 extern const unsigned char puck_p2[];
+extern const unsigned char puck_px[];

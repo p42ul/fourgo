@@ -1,6 +1,5 @@
 #include "fourgo.h"
 
-#include <gb/drawing.h>
 #include "drawing.h"
 #include "board.h"
 
@@ -9,15 +8,11 @@ static uint8_t current_player = P1;
 
 void select_column(uint8_t selection)
 {
-  erase_selection(selected_column);
-
   selected_column = selection;
   if (selected_column >= BOARD_WIDTH)
     selected_column = BOARD_WIDTH - 1;
   if (selected_column < 0)
     selected_column = 0;
-
-  draw_selection(selected_column, current_player);
 }
 
 void main(void)
@@ -25,13 +20,13 @@ void main(void)
   uint8_t key, last = 0;
   uint8_t row, column;
   uint8_t x1, y1, x2, y2;
+  init_drawing();
   Board* board;
   board = init_board();
-  draw_board();
-  select_column(selected_column);
   while(1)
   {
     vsync();
+    draw_board(board);
     key = joypad();
     if(key & J_LEFT)
     {
@@ -60,7 +55,6 @@ void main(void)
         last |= J_A;
         if (make_move(board, current_player, selected_column, &column, &row))
         {
-          draw_move(column, row, current_player);
           if (check_win(board, &x1, &y1, &x2, &y2))
               break;
           if (current_player == P1)
@@ -74,16 +68,5 @@ void main(void)
       last &= ~J_A;
     }
   }
-  /* winner found */
-  color(BLACK, BLACK, XOR);
-  for (key = 0; key < 9; key++)
-  {
-    line(CIRCLE_RADIUS + MARGIN + SPACING*x1,
-         CIRCLE_RADIUS + MARGIN + SPACING*y1,
-         CIRCLE_RADIUS + MARGIN + SPACING*x2,
-         CIRCLE_RADIUS + MARGIN + SPACING*y2);
-    delay(300);
-  }
-  waitpad(J_START);
   reset();
 }
