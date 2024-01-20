@@ -12,8 +12,8 @@ void select_column(uint8_t selection)
   erase_selection(selected_column);
 
   selected_column = selection;
-  if (selected_column >= WIDTH)
-    selected_column = WIDTH - 1;
+  if (selected_column >= BOARD_WIDTH)
+    selected_column = BOARD_WIDTH - 1;
   if (selected_column < 0)
     selected_column = 0;
 

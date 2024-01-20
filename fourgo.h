@@ -3,8 +3,8 @@
 
 #include <gb/gb.h>
 
-#define WIDTH 7
-#define HEIGHT 6
+#define BOARD_WIDTH 7
+#define BOARD_HEIGHT 6
 
 #define TRUE 1
 #define FALSE 0

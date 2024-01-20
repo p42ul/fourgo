@@ -7,9 +7,9 @@ void draw_board(void)
 {
   uint8_t x, y;
   color(BLACK, BLACK, SOLID);
-  for (x = 0; x < WIDTH; x++)
+  for (x = 0; x < BOARD_WIDTH; x++)
   {
-    for (y = 0; y < HEIGHT; y++)
+    for (y = 0; y < BOARD_HEIGHT; y++)
     {
       circle(CIRCLE_RADIUS + MARGIN + SPACING*x,
           CIRCLE_RADIUS + MARGIN + SPACING*y,
