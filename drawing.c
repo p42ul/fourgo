@@ -7,8 +7,8 @@
 
 void board_to_bkg(uint8_t* row, uint8_t* col)
 {
-  *row *= 2;
-  *col *= 2;
+  *row = *row * puck_map_height + BKG_MARGIN;
+  *col = *col * puck_map_width + BKG_MARGIN;
 }
 
 void init_drawing(void)
@@ -20,6 +20,23 @@ void init_drawing(void)
   SHOW_BKG;
 }
 
+void draw_selection(uint8_t selected_column, uint8_t player)
+{
+  uint8_t row = 0, col, row_bkg, col_bkg, tile_index;
+  for (col = 0; col < BOARD_WIDTH; col++)
+  {
+    tile_index = 0;
+    if (col == selected_column)
+      tile_index = player * puck_map_tiles;
+    col_bkg = col;
+    row_bkg = row;
+    board_to_bkg(&row_bkg, &col_bkg);
+    row_bkg -= puck_map_height;
+    set_bkg_based_tiles(col_bkg, row_bkg, puck_map_width, puck_map_height, puck_map, tile_index);
+  }
+}
+
+
 void draw_puck(uint8_t row, uint8_t col, uint8_t tile_index)
 {
   board_to_bkg(&row, &col);
@@ -28,9 +45,8 @@ void draw_puck(uint8_t row, uint8_t col, uint8_t tile_index)
 
 void draw_board(Board* board)
 {
-  set_bkg_based_tiles(0, 0, puck_map_width, puck_map_height, puck_map, 1);
   uint8_t row, col;
-  uint8_t tile_index;
+  uint8_t tile_index = 0;
   for (col = 0; col < BOARD_WIDTH; col++)
   {
     for (row = 0; row < BOARD_HEIGHT; row++)

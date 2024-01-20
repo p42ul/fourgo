@@ -26,6 +26,7 @@ void main(void)
   while(1)
   {
     vsync();
+    draw_selection(selected_column, current_player);
     draw_board(board);
     key = joypad();
     if(key & J_LEFT)
@@ -68,5 +69,7 @@ void main(void)
       last &= ~J_A;
     }
   }
+  draw_board(board);
+  waitpad(J_START);
   reset();
 }
