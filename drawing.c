@@ -1,52 +1,68 @@
 #include "drawing.h"
 
-#include <gb/drawing.h>
+#include "fourgo.h"
+#include "board.h"
 
+#include "gb/gb.h"
 
-void draw_board(void)
+void board_to_bkg(uint8_t* row, uint8_t* col)
 {
-  uint8_t x, y;
-  color(BLACK, BLACK, SOLID);
-  for (x = 0; x < WIDTH; x++)
+  *row = *row * puck_map_height + BKG_MARGIN;
+  *col = *col * puck_map_width + BKG_MARGIN;
+}
+
+void init_drawing(void)
+{
+  set_bkg_data(0*puck_tiles_count, puck_tiles_count, puck_px);
+  set_bkg_data(1*puck_tiles_count, puck_tiles_count, puck_p1);
+  set_bkg_data(2*puck_tiles_count, puck_tiles_count, puck_p2);
+  init_bkg(0);
+  SHOW_BKG;
+}
+
+void draw_selection(uint8_t selected_column, uint8_t player)
+{
+  uint8_t row = 0, col, row_bkg, col_bkg, tile_index;
+  for (col = 0; col < BOARD_WIDTH; col++)
   {
-    for (y = 0; y < HEIGHT; y++)
-    {
-      circle(CIRCLE_RADIUS + MARGIN + SPACING*x,
-          CIRCLE_RADIUS + MARGIN + SPACING*y,
-          CIRCLE_RADIUS, M_NOFILL);
-    }
+    tile_index = 0;
+    if (col == selected_column)
+      tile_index = player * puck_map_tiles;
+    col_bkg = col;
+    row_bkg = row;
+    board_to_bkg(&row_bkg, &col_bkg);
+    row_bkg -= puck_map_height;
+    set_bkg_based_tiles(col_bkg, row_bkg, puck_map_width, puck_map_height, puck_map, tile_index);
   }
 }
 
-void erase_selection(uint8_t column)
+
+void draw_puck(uint8_t row, uint8_t col, uint8_t tile_index)
 {
-  color(WHITE, WHITE, SOLID);
-  circle(CIRCLE_RADIUS + MARGIN + SPACING*column,
-      CIRCLE_RADIUS + MARGIN - SPACING,
-      CIRCLE_RADIUS,
-      M_FILL);
+  board_to_bkg(&row, &col);
+  set_bkg_based_tiles(col, row, puck_map_width, puck_map_height, puck_map, tile_index);
 }
 
-void draw_selection(uint8_t column, uint8_t player)
+void draw_board(Board* board)
 {
-  if (player == P1)
-    color(P1_COLOR, P1_COLOR, SOLID);
-  else
-    color(P2_COLOR, P2_COLOR, SOLID);
-  circle(CIRCLE_RADIUS + MARGIN + SPACING*column,
-      CIRCLE_RADIUS + MARGIN - SPACING,
-      CIRCLE_RADIUS,
-      M_FILL);
-}
-
-
-void draw_move(uint8_t x, uint8_t y, uint8_t player)
-{
-  if (player == P1)
-    color(P1_COLOR, P1_COLOR, SOLID);
-  else
-    color(P2_COLOR, P2_COLOR, SOLID);
-  circle(CIRCLE_RADIUS + MARGIN + SPACING*x,
-      CIRCLE_RADIUS + MARGIN + SPACING*y,
-      CIRCLE_RADIUS, M_FILL);
+  uint8_t row, col;
+  uint8_t tile_index = 0;
+  for (col = 0; col < BOARD_WIDTH; col++)
+  {
+    for (row = 0; row < BOARD_HEIGHT; row++)
+    {
+      switch(board[row][col]) {
+        case PX:
+          tile_index = 0*puck_tiles_count;
+        break;
+        case P1:
+          tile_index = 1*puck_tiles_count;
+        break;
+        case P2:
+          tile_index = 2*puck_tiles_count;
+        break;
+      }
+      draw_puck(row, col, tile_index);
+    }
+  }
 }

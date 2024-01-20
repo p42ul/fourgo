@@ -1,13 +1,13 @@
 #include "board.h"
 #include "fourgo.h"
 
-static uint8_t _board[HEIGHT][WIDTH];
+static uint8_t _board[BOARD_HEIGHT][BOARD_WIDTH];
 
 Board* init_board(void)
 {
   uint8_t w, h;
-  for (w = 0; w < WIDTH; w++)
-    for (h = 0; h < HEIGHT; h++)
+  for (w = 0; w < BOARD_WIDTH; w++)
+    for (h = 0; h < BOARD_HEIGHT; h++)
       _board[h][w] = PX;
   return _board;
 }
@@ -24,8 +24,8 @@ uint8_t check_win(Board* board, uint8_t* x1, uint8_t* y1, uint8_t* x2, uint8_t* 
   for (p = P1; p <= P2; p++)
   {
     /* check vertical */
-    for (w = 0; w < WIDTH; w++)
-      for (h = 0; h < HEIGHT - WIN_LENGTH + 1; h++)
+    for (w = 0; w < BOARD_WIDTH; w++)
+      for (h = 0; h < BOARD_HEIGHT - WIN_LENGTH + 1; h++)
       {
         for (i = 0; i < WIN_LENGTH; i++)
           if (board[h+i][w] != p)
@@ -40,8 +40,8 @@ uint8_t check_win(Board* board, uint8_t* x1, uint8_t* y1, uint8_t* x2, uint8_t* 
         }
       }
     /* check horizontal */
-    for (h = 0; h < HEIGHT; h++)
-      for (w = 0; w < WIDTH - WIN_LENGTH + 1; w++)
+    for (h = 0; h < BOARD_HEIGHT; h++)
+      for (w = 0; w < BOARD_WIDTH - WIN_LENGTH + 1; w++)
       {
         for (i = 0; i < WIN_LENGTH; i++)
           if (board[h][w+i] != p)
@@ -56,8 +56,8 @@ uint8_t check_win(Board* board, uint8_t* x1, uint8_t* y1, uint8_t* x2, uint8_t* 
         }
       }
     /* check up-right diagonal / */
-    for (w = 0; w < WIDTH - WIN_LENGTH + 1; w++)
-      for (h = HEIGHT - WIN_LENGTH + 1; h < HEIGHT; h++)
+    for (w = 0; w < BOARD_WIDTH - WIN_LENGTH + 1; w++)
+      for (h = BOARD_HEIGHT - WIN_LENGTH + 1; h < BOARD_HEIGHT; h++)
       {
         for (i = 0; i < WIN_LENGTH; i++)
           if (board[h-i][w+i] != p)
@@ -72,8 +72,8 @@ uint8_t check_win(Board* board, uint8_t* x1, uint8_t* y1, uint8_t* x2, uint8_t* 
         }
       }
     /* check down-right diagonal \ */
-    for (w = 0; w < WIDTH - WIN_LENGTH + 1; w++)
-      for (h = 0; h < HEIGHT - WIN_LENGTH + 1; h++)
+    for (w = 0; w < BOARD_WIDTH - WIN_LENGTH + 1; w++)
+      for (h = 0; h < BOARD_HEIGHT - WIN_LENGTH + 1; h++)
       {
         for (i = 0; i < WIN_LENGTH; i++)
           if (board[h+i][w+i] != p)
@@ -99,7 +99,7 @@ uint8_t check_win(Board* board, uint8_t* x1, uint8_t* y1, uint8_t* x2, uint8_t* 
 uint8_t make_move(Board* board, uint8_t player, uint8_t column, uint8_t* x, uint8_t* y)
 {
   int16_t row = 0;
-  while (board[row][column] == PX && row < HEIGHT)
+  while (board[row][column] == PX && row < BOARD_HEIGHT)
     row++;
   row--;
   if (row >= 0)
