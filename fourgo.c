@@ -3,7 +3,7 @@
 #include "drawing.h"
 #include "board.h"
 
-static int8_t selected_column = 0;
+static int8_t selected_column = 3;
 static uint8_t current_player = P1;
 
 static uint8_t key_cur;
