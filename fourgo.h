@@ -19,5 +19,9 @@
 #define WIN_LENGTH 4
 
 void select_column(uint8_t selection);
+void handle_key_debounce(uint8_t debounce_mask, void (*action)(void));
+void inc_column(void);
+void dec_column(void);
+void try_make_move(void);
 
 #endif /* _FOURGO_H_ */
