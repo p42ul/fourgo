@@ -96,7 +96,7 @@ uint8_t check_win(Board* board, uint8_t* x1, uint8_t* y1, uint8_t* x2, uint8_t* 
  * If the move is invalid, returns FALSE.
  * Otherwise, returns TRUE.
  */
-uint8_t make_move(Board* board, uint8_t player, uint8_t column, uint8_t* x, uint8_t* y)
+uint8_t make_move(Board* board, uint8_t player, uint8_t column)
 {
   int16_t row = 0;
   while (board[row][column] == PX && row < BOARD_HEIGHT)
@@ -105,8 +105,6 @@ uint8_t make_move(Board* board, uint8_t player, uint8_t column, uint8_t* x, uint
   if (row >= 0)
   {
     board[row][column] = player;
-    *x = column;
-    *y = row;
     return TRUE;
   }
   return FALSE;

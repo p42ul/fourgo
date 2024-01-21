@@ -6,6 +6,11 @@
 static int8_t selected_column = 0;
 static uint8_t current_player = P1;
 
+static uint8_t key_cur;
+static uint8_t key_last;
+
+static Board* board;
+
 void select_column(uint8_t selection)
 {
   selected_column = selection;
@@ -15,59 +20,56 @@ void select_column(uint8_t selection)
     selected_column = 0;
 }
 
+void inc_column(void)
+{
+  select_column(selected_column + 1);
+}
+
+void dec_column(void)
+{
+  select_column(selected_column - 1);
+}
+
+void try_make_move(void)
+{
+  if (make_move(board, current_player, selected_column))
+  {
+    if (current_player == P1)
+      current_player = P2;
+    else
+      current_player = P1;
+  }
+}
+
+void handle_key_debounce(uint8_t debounce_mask, void (*action)(void))
+{
+    if (key_cur & debounce_mask) {
+        if (!(key_last & debounce_mask)) {
+            action();
+            key_last |= debounce_mask;
+        }
+    } else {
+        key_last &= ~debounce_mask;
+    }
+}
+
 void main(void)
 {
-  uint8_t key, last = 0;
-  uint8_t row, column;
+  /* coordinates of winning move */
   uint8_t x1, y1, x2, y2;
   init_drawing();
-  Board* board;
   board = init_board();
   while(1)
   {
     vsync();
     draw_selection(selected_column, current_player);
     draw_board(board);
-    key = joypad();
-    if(key & J_LEFT)
-    {
-      if (!(last & J_LEFT))
-      {
-        select_column(selected_column - 1);
-        last |= J_LEFT;
-      }
-    } else {
-      last &= ~J_LEFT;
-    }
-    if(key & J_RIGHT)
-    {
-      if (!(last & J_RIGHT))
-      {
-        select_column(selected_column + 1);
-        last |= J_RIGHT;
-      }
-    } else {
-      last &= ~J_RIGHT;
-    }
-    if (key & J_A)
-    {
-      if (!(last & J_A))
-      {
-        last |= J_A;
-        if (make_move(board, current_player, selected_column, &column, &row))
-        {
-          if (check_win(board, &x1, &y1, &x2, &y2))
-              break;
-          if (current_player == P1)
-            current_player = P2;
-          else
-            current_player = P1;
-          select_column(selected_column);
-        }
-      }
-    } else {
-      last &= ~J_A;
-    }
+    key_cur = joypad();
+    handle_key_debounce(J_LEFT, dec_column);
+    handle_key_debounce(J_RIGHT, inc_column);
+    handle_key_debounce(J_A, try_make_move);
+    if (check_win(board, &x1, &y1, &x2, &y2))
+        break;
   }
   draw_board(board);
   waitpad(J_START);
