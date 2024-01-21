@@ -6,7 +6,9 @@
 #include "fourgo.h"
 #include "board.h"
 
-const metasprite_t player1_puck_metasprite[] = {
+
+
+const metasprite_t puck_metasprite[] = {
     {.dy=-8, .dx=-8, .dtile=0, .props=0},
     {.dy=0, .dx=8, .dtile=1, .props=0},
     {.dy=8, .dx=-8, .dtile=2, .props=0},
@@ -39,7 +41,7 @@ void draw_selection(uint8_t selected_column, uint8_t player)
     base_tile = 0*puck_tiles_count;
   else
     base_tile = 1*puck_tiles_count;
-  move_metasprite_ex(player1_puck_metasprite, base_tile, 0, 0, selected_column * 16 + 40, 32);
+  move_metasprite_ex(puck_metasprite, base_tile, 0, 0, selected_column * 16 + 40, 32);
 }
 
 
