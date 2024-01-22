@@ -5,10 +5,6 @@
 
 #define BOARD_WIDTH 7
 #define BOARD_HEIGHT 6
-/* 3 bkg tiles of 8x8 pixels turns out to be the perfect margin
-   for a 7x6 grid */
-#define BKG_MARGIN 3
-
 
 #define DEFAULT_COLUMN 3
 

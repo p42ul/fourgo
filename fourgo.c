@@ -32,8 +32,12 @@ void dec_column(void)
 
 void try_make_move(void)
 {
-  if (make_move(board, current_player, selected_column))
+  uint8_t row;
+  if (is_valid_move(board, selected_column, &row))
   {
+    while(!draw_move(selected_column, row, current_player))
+      vsync();
+    make_move(board, current_player, selected_column);
     if (current_player == P1)
       current_player = P2;
     else

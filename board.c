@@ -91,6 +91,20 @@ uint8_t check_win(Board* board, uint8_t* x1, uint8_t* y1, uint8_t* x2, uint8_t* 
   return PX;
 }
 
+uint8_t is_valid_move(Board* board, uint8_t column, uint8_t* row_out)
+{
+  int16_t row = 0;
+  while (board[row][column] == PX && row < BOARD_HEIGHT)
+    row++;
+  row--;
+  if (row >= 0)
+  {
+    *row_out = row;
+    return TRUE;
+  }
+  return FALSE;
+}
+
 /*
  * Tries to make a move on the board.
  * If the move is invalid, returns FALSE.

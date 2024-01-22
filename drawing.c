@@ -8,6 +8,7 @@
 
 static uint8_t last_selected_column = DEFAULT_COLUMN;
 static uint8_t selection_current_x = column_to_pixel(DEFAULT_COLUMN);
+static uint8_t selection_current_y = SELECT_Y;
 static uint8_t selection_move_tick_count = 0;
 
 void board_to_bkg(uint8_t* row, uint8_t* col)
@@ -20,7 +21,7 @@ void board_to_bkg(uint8_t* row, uint8_t* col)
    SELECT_RESOLVE_TIME ticks */
 uint8_t lerp(uint8_t start, uint8_t end)
 {
-  if (selection_move_tick_count > SELECT_RESOLVE_TIME)
+  if (selection_move_tick_count >= SELECT_RESOLVE_TIME)
     return end;
   return start + (selection_move_tick_count++ * (end - start)) / SELECT_RESOLVE_TIME;
 }
@@ -37,21 +38,42 @@ void init_drawing(void)
   SHOW_SPRITES;
 }
 
+uint8_t get_base_tile(uint8_t player)
+{
+  if (player == P1)
+    return 0*puck_tiles_count;
+  else
+    return 1*puck_tiles_count;
+}
+
 void draw_selection(uint8_t column, uint8_t player)
 {
-  uint8_t base_tile, desired_x;
+  uint8_t base_tile, next_x;
   if (column != last_selected_column)
   {
     selection_move_tick_count = 0;
     last_selected_column = column;
   }
-  if (player == P1)
-    base_tile = 0*puck_tiles_count;
-  else
-    base_tile = 1*puck_tiles_count;
-  desired_x = lerp(selection_current_x, column_to_pixel(column));
-  selection_current_x = desired_x;
-  move_metasprite_ex(puck_metasprite, base_tile, 0, 0, desired_x, SELECT_Y);
+  base_tile = get_base_tile(player);
+  next_x = lerp(selection_current_x, column_to_pixel(column));
+  selection_current_x = next_x;
+  move_metasprite_ex(puck_metasprite, base_tile, 0, 0, next_x, SELECT_Y);
+}
+
+uint8_t draw_move(uint8_t col, uint8_t row, uint8_t player)
+{
+  uint8_t base_tile, x, y;
+  base_tile = get_base_tile(player);
+  x = column_to_pixel(col);
+  y = row_to_pixel(row);
+  if (selection_current_y >= y)
+  {
+    selection_current_y = SELECT_Y;
+    return TRUE;
+  }
+  selection_current_y += 4;
+  move_metasprite_ex(puck_metasprite, base_tile, 0, 0, x, selection_current_y);
+  return FALSE;
 }
 
 
