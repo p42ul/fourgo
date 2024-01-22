@@ -9,6 +9,9 @@
    for a 7x6 grid */
 #define BKG_MARGIN 3
 
+
+#define DEFAULT_COLUMN 3
+
 #define TRUE 1
 #define FALSE 0
 

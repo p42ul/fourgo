@@ -6,20 +6,23 @@
 #include "fourgo.h"
 #include "board.h"
 
-
-
-const metasprite_t puck_metasprite[] = {
-    {.dy=-8, .dx=-8, .dtile=0, .props=0},
-    {.dy=0, .dx=8, .dtile=1, .props=0},
-    {.dy=8, .dx=-8, .dtile=2, .props=0},
-    {.dy=0, .dx=8, .dtile=3, .props=0},
-	METASPR_TERM
-};
+static uint8_t last_selected_column = DEFAULT_COLUMN;
+static uint8_t selection_current_x = column_to_pixel(DEFAULT_COLUMN);
+static uint8_t selection_move_tick_count = 0;
 
 void board_to_bkg(uint8_t* row, uint8_t* col)
 {
   *row = *row * puck_map_height + BKG_MARGIN;
   *col = *col * puck_map_width + BKG_MARGIN;
+}
+
+/* linear interpolation that resolves after
+   SELECT_RESOLVE_TIME ticks */
+uint8_t lerp(uint8_t start, uint8_t end)
+{
+  if (selection_move_tick_count > SELECT_RESOLVE_TIME)
+    return end;
+  return start + (selection_move_tick_count++ * (end - start)) / SELECT_RESOLVE_TIME;
 }
 
 void init_drawing(void)
@@ -34,14 +37,21 @@ void init_drawing(void)
   SHOW_SPRITES;
 }
 
-void draw_selection(uint8_t selected_column, uint8_t player)
+void draw_selection(uint8_t column, uint8_t player)
 {
-  uint8_t base_tile;
+  uint8_t base_tile, desired_x;
+  if (column != last_selected_column)
+  {
+    selection_move_tick_count = 0;
+    last_selected_column = column;
+  }
   if (player == P1)
     base_tile = 0*puck_tiles_count;
   else
     base_tile = 1*puck_tiles_count;
-  move_metasprite_ex(puck_metasprite, base_tile, 0, 0, selected_column * 16 + 40, 32);
+  desired_x = lerp(selection_current_x, column_to_pixel(column));
+  selection_current_x = desired_x;
+  move_metasprite_ex(puck_metasprite, base_tile, 0, 0, desired_x, SELECT_Y);
 }
 
 
