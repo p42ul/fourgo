@@ -9,6 +9,8 @@ static uint8_t current_player = P1;
 static uint8_t key_cur;
 static uint8_t key_last;
 
+static uint8_t win_checked = TRUE;
+
 static Board* board;
 
 void select_column(uint8_t selection)
@@ -38,6 +40,7 @@ void try_make_move(void)
     while(!draw_move(selected_column, row, current_player))
       vsync();
     make_move(board, current_player, selected_column);
+    win_checked = FALSE;
     if (current_player == P1)
       current_player = P2;
     else
@@ -62,18 +65,24 @@ void main(void)
   /* coordinates of winning move */
   uint8_t x1, y1, x2, y2;
   init_drawing();
+  draw_board(board);
   board = init_board();
   while(1)
   {
     vsync();
     draw_selection(selected_column, current_player);
-    draw_board(board);
     key_cur = joypad();
     handle_key_debounce(J_LEFT, dec_column);
     handle_key_debounce(J_RIGHT, inc_column);
     handle_key_debounce(J_A, try_make_move);
-    if (check_win(board, &x1, &y1, &x2, &y2))
+    if (!win_checked)
+    {
+      draw_board(board);
+      if (check_win(board, &x1, &y1, &x2, &y2) )
         break;
+      else
+        win_checked = TRUE;
+    }
   }
   draw_board(board);
   waitpad(J_START);
