@@ -90,6 +90,8 @@ void main(void)
     }
   }
   draw_board(board);
+  hide_selection();
+  draw_win_line(x1, y1, x2, y2);
   waitpad(J_START);
   reset();
 }

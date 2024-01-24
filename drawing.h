@@ -5,8 +5,7 @@
 
 #include "fourgo.h"
 #include "board.h"
-#include "sprites/puck_map.h"
-#include "sprites/puck_tiles.h"
+#include "sprites/puck.h"
 #include "sprites/winner_lines.h"
 
 /* for a 7x6 board, this finds the upper-left pixel of
@@ -29,5 +28,7 @@ void draw_board(Board* board);
 uint8_t lerp(uint8_t start, uint8_t end);
 uint8_t draw_move(uint8_t col, uint8_t row, uint8_t player);
 uint8_t get_base_tile(uint8_t player);
+void draw_win_line(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
+void hide_selection(void);
 
 #endif /* FOURGO_DRAWING_H_ */
