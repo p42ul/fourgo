@@ -2,6 +2,7 @@
 
 #include "drawing.h"
 #include "board.h"
+#include "sound.h"
 
 static int8_t selected_column = DEFAULT_COLUMN;
 static uint8_t current_player = P1;
@@ -18,8 +19,10 @@ void select_column(uint8_t selection)
   selected_column = selection;
   if (selected_column >= BOARD_WIDTH)
     selected_column = BOARD_WIDTH - 1;
-  if (selected_column < 0)
+  else if (selected_column < 0)
     selected_column = 0;
+  else
+    play_move_sound();
 }
 
 void inc_column(void)
@@ -37,6 +40,7 @@ void try_make_move(void)
   uint8_t row;
   if (is_valid_move(board, selected_column, &row))
   {
+    play_drop_sound();
     while(!draw_move(selected_column, row, current_player))
       vsync();
     make_move(board, current_player, selected_column);
@@ -62,8 +66,9 @@ void handle_key_debounce(uint8_t debounce_mask, void (*action)(void))
 
 void main(void)
 {
-  /* coordinates of winning move */
+  /* start and end coordinates of winning move */
   uint8_t x1, y1, x2, y2;
+  init_sound();
   init_drawing();
   draw_board(board);
   board = init_board();
