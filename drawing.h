@@ -7,6 +7,7 @@
 #include "board.h"
 #include "sprites/puck_map.h"
 #include "sprites/puck_tiles.h"
+#include "sprites/winner_lines.h"
 
 /* for a 7x6 board, this finds the upper-left pixel of
    the current selection, given a column number */

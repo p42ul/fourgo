@@ -11,6 +11,11 @@ static uint8_t selection_current_x = column_to_pixel(DEFAULT_COLUMN);
 static uint8_t selection_current_y = SELECT_Y;
 static uint8_t selection_move_tick_count = 0;
 
+/* indices of sprites for winner lines */
+static uint8_t winner_line_horiz = 2*puck_tiles_count;
+static uint8_t winner_line_vert =  2*puck_tiles_count + 1;
+static uint8_t winner_line_diag =  2*puck_tiles_count + 2;
+
 void board_to_bkg(uint8_t* row, uint8_t* col)
 {
   *row = *row * puck_map_height + BKG_MARGIN;
@@ -33,6 +38,10 @@ void init_drawing(void)
   set_bkg_data(2*puck_tiles_count, puck_tiles_count, puck_p2);
   set_sprite_data(0*puck_tiles_count, puck_tiles_count, puck_p1);
   set_sprite_data(1*puck_tiles_count, puck_tiles_count, puck_p2);
+  set_sprite_data(2*puck_tiles_count, winner_lines_count, winner_lines);
+  set_sprite_tile(puck_tiles_count, winner_line_horiz);
+  set_sprite_tile(puck_tiles_count + 1, winner_line_vert);
+  set_sprite_tile(puck_tiles_count + 2, winner_line_diag);
   init_bkg(0);
   SHOW_BKG;
   SHOW_SPRITES;
