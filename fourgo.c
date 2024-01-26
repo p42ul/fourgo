@@ -5,7 +5,7 @@
 #include "sound.h"
 
 static int8_t selected_column = DEFAULT_COLUMN;
-static uint8_t current_player = P1;
+static Player current_player = P1;
 
 static uint8_t key_cur;
 static uint8_t key_last;
@@ -22,7 +22,7 @@ void select_column(uint8_t selection)
   else if (selected_column < 0)
     selected_column = 0;
   else
-    play_move_sound();
+    play_move_sound(current_player);
 }
 
 void inc_column(void)
@@ -40,7 +40,7 @@ void try_make_move(void)
   uint8_t row;
   if (is_valid_move(board, selected_column, &row))
   {
-    play_drop_sound();
+    play_drop_sound(current_player);
     while(!draw_move(selected_column, row, current_player))
       vsync();
     make_move(board, current_player, selected_column);

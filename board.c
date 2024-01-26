@@ -110,7 +110,7 @@ uint8_t is_valid_move(Board* board, uint8_t column, uint8_t* row_out)
  * If the move is invalid, returns FALSE.
  * Otherwise, returns TRUE.
  */
-uint8_t make_move(Board* board, uint8_t player, uint8_t column)
+uint8_t make_move(Board* board, Player player, uint8_t column)
 {
   int16_t row = 0;
   while (board[row][column] == PX && row < BOARD_HEIGHT)

@@ -1,21 +1,47 @@
-#include <gb/gb.h>
+#include "sound.h"
 
-void play_drop_sound(void)
+#include <gb/gb.h>
+#include "fourgo.h"
+
+
+void play_drop_sound(Player player)
 {
-  NR10_REG = 0x7E;
-  NR11_REG = 0x84;
-  NR12_REG = 0x73;
-  NR13_REG = 0x72;
-  NR14_REG = 0x86;
+  if (player == P1)
+  {
+    NR10_REG = 0x7E;
+    NR11_REG = 0x84;
+    NR12_REG = 0x73;
+    NR13_REG = 0x72;
+    NR14_REG = 0x86;
+  }
+  else
+  {
+    NR10_REG = 0x7E;
+    NR11_REG = 0x84;
+    NR12_REG = 0x73;
+    NR13_REG = 0x45;
+    NR14_REG = 0x86;
+  }
 }
 
-void play_move_sound(void)
+void play_move_sound(Player player)
 {
-  NR10_REG = 0x24;
-  NR11_REG = 0x81;
-  NR12_REG = 0x43;
-  NR13_REG = 0x73;
-  NR14_REG = 0x86;
+  if (player == P1)
+  {
+    NR10_REG = 0x24;
+    NR11_REG = 0x81;
+    NR12_REG = 0x43;
+    NR13_REG = 0x72;
+    NR14_REG = 0x86;
+  }
+  else
+  {
+    NR10_REG = 0x24;
+    NR11_REG = 0x81;
+    NR12_REG = 0x43;
+    NR13_REG = 0x45;
+    NR14_REG = 0x86;
+  }
 }
 
 void init_sound(void)

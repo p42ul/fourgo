@@ -11,9 +11,11 @@
 #define TRUE 1
 #define FALSE 0
 
-#define PX 0
-#define P1 1
-#define P2 2
+typedef enum  {
+    PX = 0,
+    P1 = 1,
+    P2 = 2,
+} Player;
 
 #define WIN_LENGTH 4
 

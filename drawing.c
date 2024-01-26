@@ -41,7 +41,7 @@ void init_drawing(void)
   SHOW_SPRITES;
 }
 
-uint8_t get_base_tile(uint8_t player)
+uint8_t get_base_tile(Player player)
 {
   if (player == P1)
     return 0*puck_tiles_count;
@@ -49,7 +49,7 @@ uint8_t get_base_tile(uint8_t player)
     return 1*puck_tiles_count;
 }
 
-void draw_selection(uint8_t column, uint8_t player)
+void draw_selection(uint8_t column, Player player)
 {
   uint8_t base_tile, next_x;
   if (column != last_selected_column)
@@ -86,7 +86,7 @@ void draw_win_line(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2)
   move_metasprite_ex(ms, 2*puck_tiles_count, 0, puck_tiles_count, x1, y1);
 }
 
-uint8_t draw_move(uint8_t col, uint8_t row, uint8_t player)
+uint8_t draw_move(uint8_t col, uint8_t row, Player player)
 {
   uint8_t base_tile, x, y;
   base_tile = get_base_tile(player);

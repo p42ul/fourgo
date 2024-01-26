@@ -22,12 +22,12 @@
 
 void board_to_bkg(uint8_t* row, uint8_t* col);
 void init_drawing(void);
-void draw_selection(uint8_t column, uint8_t player);
+void draw_selection(uint8_t column, Player player);
 void draw_puck(uint8_t row, uint8_t col, uint8_t tile_index);
 void draw_board(Board* board);
 uint8_t lerp(uint8_t start, uint8_t end);
-uint8_t draw_move(uint8_t col, uint8_t row, uint8_t player);
-uint8_t get_base_tile(uint8_t player);
+uint8_t draw_move(uint8_t col, uint8_t row, Player player);
+uint8_t get_base_tile(Player player);
 void draw_win_line(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
 void hide_selection(void);
 
