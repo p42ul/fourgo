@@ -1,0 +1,6 @@
+# Editor stuff
+.vscode/
+# Debug symbols
+fourgo.cdb
+fourgo.map
+fourgo.noi
