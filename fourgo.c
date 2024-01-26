@@ -45,11 +45,16 @@ void try_make_move(void)
       vsync();
     make_move(board, current_player, selected_column);
     win_checked = FALSE;
+    swap_player();
+  }
+}
+
+void swap_player(void)
+{
     if (current_player == P1)
       current_player = P2;
     else
       current_player = P1;
-  }
 }
 
 void handle_key_debounce(uint8_t debounce_mask, void (*action)(void))
@@ -91,7 +96,8 @@ void main(void)
   }
   draw_board(board);
   hide_selection();
-  draw_win_line(x1, y1, x2, y2);
+  swap_player(); /* needed because check_win swaps the player */
+  draw_win(current_player, x1, y1, x2, y2);
   waitpad(J_START);
   reset();
 }

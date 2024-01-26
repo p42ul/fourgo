@@ -3,5 +3,4 @@
 	-Wl-llib\hUGEDriver.lib ^
 	-o fourgo.gb ^
 	sprites\puck.c ^
-	sprites\winner_lines.c ^
 	board.c drawing.c sound.c fourgo.c

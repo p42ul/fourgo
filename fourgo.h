@@ -26,5 +26,6 @@ void dec_column(void);
 void try_make_move(void);
 void play_sound(void);
 void init_sound(void);
+void swap_player(void);
 
 #endif /* _FOURGO_H_ */

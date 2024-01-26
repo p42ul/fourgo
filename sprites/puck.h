@@ -10,8 +10,10 @@
 
 extern metasprite_t puck_metasprite[];
 extern char puck_map[];
-extern const unsigned char puck_p1[];
-extern const unsigned char puck_p2[];
-extern const unsigned char puck_px[];
+extern const unsigned char puck_p1_data[];
+extern const unsigned char puck_p2_data[];
+extern const unsigned char puck_px_data[];
+extern const unsigned char puck_p1_win_data[];
+extern const unsigned char puck_p2_win_data[];
 
 #endif
